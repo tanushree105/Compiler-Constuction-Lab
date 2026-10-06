@@ -1,0 +1,53 @@
+#include <stdlib.h>
+
+void decimalToHex(int n)
+{
+    int rem[100];
+    int i = 0;
+
+    if (n == 0)
+    {
+        printf("Hexadecimal = 0\n");
+        return;
+    }
+
+    while (n > 0)
+    {
+        rem[i] = n % 16;
+        n = n / 16;
+        i++;
+    }
+
+    printf("Hexadecimal = ");
+
+    while (i > 0)
+    {
+        i--;
+
+        if (rem[i] < 10)
+            printf("%d", rem[i]);
+        else
+            printf("%c", rem[i] - 10 + 'A');
+    }
+
+    printf("\n");
+}
+
+%}
+
+[0-9]+       { decimalToHex(atoi(yytext)); }
+[\t\n]+      { printf("Invalid input\n"); }
+
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main()
+{
+    printf("Enter decimal number: ");
+    yylex();
+    return 0;
+}
