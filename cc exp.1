@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+"zero"    { printf("0\n"); }
+"one"     { printf("1\n"); }
+"two"     { printf("2\n"); }
+"three"   { printf("3\n"); }
+"four"    { printf("4\n"); }
+"five"    { printf("5\n"); }
+"six"     { printf("6\n"); }
+"seven"   { printf("7\n"); }
+"eight"   { printf("8\n"); }
+"nine"    { printf("9\n"); }
+%%
+
+int main()
+{
+    printf("Enter words:\n");
+    yylex();
+    return 0;
+}
+
+int yywrap()
+{
+    return 1;
+}
