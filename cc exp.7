@@ -1,0 +1,21 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+
+^.*\.com$     { printf("Line ends with .com\n"); }
+.*            { printf("Line does not end with .com\n"); }
+
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main()
+{
+    yylex();
+    return 0;
+}
