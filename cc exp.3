@@ -1,0 +1,24 @@
+%{
+#include <stdio.h>
+
+int count = 0;
+%}
+
+%%
+[aA][a-zA-Z]*   { count++; }
+[ \t\n]+        ;
+.               ;
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main()
+{
+    printf("Enter text (Press Ctrl+D to end):\n");
+    yylex();
+    printf("Number of words starting with 'a': %d\n", count);
+    return 0;
+}
