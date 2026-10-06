@@ -1,0 +1,56 @@
+%{
+#include <stdio.h>
+int lines = 0;
+int words = 0;
+int chars = 0;
+int spaces = 0;
+int keywords = 0;
+int identifiers = 0;
+int comments = 0;
+%}
+
+KEYWORD int|char|float|double|if|else|for|while|return|void|break|continue|switch|case|default|do|long|short|unsigned|signed|const|static|struct
+ID [a-zA-Z_][a-zA-Z0-9_]*
+COMMENT1 "//".*
+COMMENT2 "/*"([^*]|\*+[^*/])*\*+"/"
+
+%%
+{COMMENT1}  { comments++; chars += yyleng; }
+{COMMENT2}  { comments++; chars += yyleng; }
+{KEYWORD}   { keywords++; words++; chars += yyleng; }
+{ID}        { identifiers++; words++; chars += yyleng; }
+[ \t]+      { spaces++; chars += yyleng; }
+\n          { lines++; chars++; }
+.           { chars++; }
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main()
+{
+    printf("Enter the input file:\n");
+    yyin = fopen("input.c", "r");
+
+    if (yyin == NULL)
+    {
+        printf("Cannot open file.\n");
+        return 0;
+    }
+
+    yylex();
+
+    printf("\n------ Lexical Analysis ------\n");
+    printf("Lines       : %d\n", lines + 1);
+    printf("Words       : %d\n", words);
+    printf("Characters  : %d\n", chars);
+    printf("Spaces      : %d\n", spaces);
+    printf("Keywords    : %d\n", keywords);
+    printf("Identifiers : %d\n", identifiers);
+    printf("Comments    : %d\n", comments);
+
+    fclose(yyin);
+    return 0;
+}
